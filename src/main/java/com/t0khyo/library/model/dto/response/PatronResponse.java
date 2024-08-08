@@ -5,6 +5,7 @@ import lombok.Builder;
 
 @Builder
 public record PatronResponse(
+        Long id,
         String firstName,
         String lastName,
         ContactInfoDTO contactInfo

@@ -29,7 +29,7 @@ public class BookController {
     @PostMapping
     public ResponseEntity<BookResponse> saveBook(@RequestBody BookRequest bookRequest) {
         BookResponse bookResponse = bookService.save(bookRequest);
-        URI bookURI = URI.create("/books/" + bookResponse.id());
+        URI bookURI = URI.create("/api/books/" + bookResponse.id());
         return ResponseEntity.created(bookURI).body(bookResponse);
     }
 
