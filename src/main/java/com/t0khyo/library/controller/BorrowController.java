@@ -19,7 +19,7 @@ public class BorrowController {
         return ResponseEntity.ok(borrowService.borrowBook(bookId, patronId));
     }
 
-    @PutMapping
+    @PutMapping("/return/{bookId}/patron/{patronId}")
     public ResponseEntity<BorrowingRecordDTO> returnBook(
             @PathVariable Long bookId,
             @PathVariable Long patronId

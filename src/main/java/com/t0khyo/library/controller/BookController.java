@@ -3,9 +3,11 @@ package com.t0khyo.library.controller;
 import com.t0khyo.library.model.dto.request.BookRequest;
 import com.t0khyo.library.model.dto.response.BookResponse;
 import com.t0khyo.library.service.BookService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
@@ -27,14 +29,21 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookResponse> saveBook(@RequestBody BookRequest bookRequest) {
+    public ResponseEntity<BookResponse> saveBook(@Valid @RequestBody BookRequest bookRequest) {
         BookResponse bookResponse = bookService.save(bookRequest);
-        URI bookURI = URI.create("/api/books/" + bookResponse.id());
+        URI bookURI = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(bookResponse.id())
+                .toUri();
         return ResponseEntity.created(bookURI).body(bookResponse);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookResponse> updateBook(@PathVariable Long id, @RequestBody BookRequest bookRequest) {
+    public ResponseEntity<BookResponse> updateBook(
+            @PathVariable Long id,
+            @Valid @RequestBody BookRequest bookRequest
+    ) {
         return ResponseEntity.ok(bookService.update(id, bookRequest));
     }
 
