@@ -7,8 +7,8 @@ import org.hibernate.validator.constraints.ISBN;
 @Builder
 public record BookRequest(
         @NotNull String title,
-        @NotNull String author,
-        @NotNull int publicationDate,
-        @NotNull @ISBN String isbn
+        String author,
+        int publicationDate,
+        @NotNull @ISBN String ISBN
 ) {
 }

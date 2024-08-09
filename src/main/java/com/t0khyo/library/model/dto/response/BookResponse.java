@@ -8,6 +8,6 @@ public record BookResponse(
         String title,
         String author,
         int publicationDate,
-        String isbn
+        String ISBN
 ) {
 }

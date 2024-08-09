@@ -14,7 +14,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/patrons")
-@RestController
+//@RestController
 public class PatronController {
     private final PatronService patronService;
 

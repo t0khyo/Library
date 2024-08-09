@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/api")
-@RestController
+//@RestController
 public class BorrowController {
     private final BorrowService borrowService;
     @PostMapping("/borrow/{bookId}/patron/{patronId}")
