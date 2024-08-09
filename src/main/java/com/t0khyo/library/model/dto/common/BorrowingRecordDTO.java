@@ -9,8 +9,9 @@ import java.time.LocalDate;
 @Builder
 public record BorrowingRecordDTO(
         Long id,
-        BookResponse bookResponse,
-        PatronResponse patronResponse,
+        BookResponse book,
+        PatronResponse patron,
+        boolean returned,
         LocalDate borrowDate,
         LocalDate returnDate
 ) {

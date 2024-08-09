@@ -17,8 +17,11 @@ import java.time.LocalDate;
 public class BorrowingRecord extends BaseEntity {
     @ManyToOne
     private Book book;
+
     @ManyToOne
     private Patron patron;
+
+    private boolean returned = false;
 
     private LocalDate borrowDate;
     private LocalDate returnDate;

@@ -13,9 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 public class Book extends BaseEntity {
-    @Column(unique = true)
+    @Column(unique=true, nullable=false)
     private String title;
     private String author;
     private int publicationDate;
     private String ISBN;
+    private boolean borrowed = false;
 }

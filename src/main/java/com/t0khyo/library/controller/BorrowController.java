@@ -1,5 +1,6 @@
 package com.t0khyo.library.controller;
 
+import com.t0khyo.library.exception.BookIsAlreadyBorrowedException;
 import com.t0khyo.library.model.dto.common.BorrowingRecordDTO;
 import com.t0khyo.library.service.BorrowService;
 import lombok.RequiredArgsConstructor;
@@ -8,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/api")
-//@RestController
+@RestController
 public class BorrowController {
     private final BorrowService borrowService;
     @PostMapping("/borrow/{bookId}/patron/{patronId}")
     public ResponseEntity<BorrowingRecordDTO> borrowBook(
             @PathVariable Long bookId,
             @PathVariable Long patronId
-    ) {
+    ) throws BookIsAlreadyBorrowedException {
         return ResponseEntity.ok(borrowService.borrowBook(bookId, patronId));
     }
 
