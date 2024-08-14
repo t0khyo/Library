@@ -19,16 +19,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
-@RequiredArgsConstructor
+
 @Service
+@Transactional(readOnly=true)
+@RequiredArgsConstructor
 public class BorrowServiceImpl implements BorrowService {
     private final BorrowingRecordRepository borrowRepository;
     private final BookRepository bookRepository;
     private final PatronRepository patronRepository;
     private final BorrowingRecordMapper borrowingRecordMapper;
 
-    @Transactional
     @Override
+    @Transactional
     public BorrowingRecordDTO borrowBook(Long bookId, Long patronId) throws BookIsAlreadyBorrowedException {
         Book book = findBookById(bookId);
         Patron patron = findPatronById(patronId);
@@ -50,8 +52,8 @@ public class BorrowServiceImpl implements BorrowService {
         return borrowingRecordMapper.toDto(savedBorrowingRecord);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public BorrowingRecordDTO returnBook(Long bookId, Long patronId) {
         BorrowingRecord borrowingRecord = borrowRepository
                 .findByReturnedFalseAndBookIdAndPatronId(bookId, patronId)

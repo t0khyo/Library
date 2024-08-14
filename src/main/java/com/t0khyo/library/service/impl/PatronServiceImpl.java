@@ -9,11 +9,13 @@ import com.t0khyo.library.repository.PatronRepository;
 import com.t0khyo.library.service.PatronService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @Service
+@Transactional(readOnly=true)
+@RequiredArgsConstructor
 public class PatronServiceImpl implements PatronService {
     private final PatronRepository patronRepository;
     private final PatronMapper patronMapper;
@@ -29,6 +31,7 @@ public class PatronServiceImpl implements PatronService {
     }
 
     @Override
+    @Transactional
     public PatronResponse save(PatronRequest patronRequest) {
         Patron patron = patronMapper.toEntity(patronRequest);
         Patron savedPatron = patronRepository.save(patron);
@@ -36,6 +39,7 @@ public class PatronServiceImpl implements PatronService {
     }
 
     @Override
+    @Transactional
     public PatronResponse update(Long id, PatronRequest patronRequest) {
         Patron existingPatron = findPatronById(id);
         patronMapper.update(patronRequest, existingPatron);
@@ -43,6 +47,7 @@ public class PatronServiceImpl implements PatronService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         Patron patron = findPatronById(id);
         patronRepository.delete(patron);

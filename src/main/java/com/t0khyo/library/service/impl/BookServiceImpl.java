@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Transactional(readOnly=true)
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
@@ -32,14 +33,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public BookResponse save(BookRequest bookRequest) {
         Book book = bookMapper.toEntity(bookRequest);
         Book savedBook = bookRepository.save(book);
         return bookMapper.toDto(savedBook);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public BookResponse update(Long id, BookRequest bookRequest) {
         Book existingBook = findBookById(id);
         bookMapper.update(bookRequest, existingBook);
@@ -47,6 +49,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         Book book = findBookById(id);
         bookRepository.delete(book);
