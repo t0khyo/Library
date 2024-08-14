@@ -1,6 +1,8 @@
 package com.t0khyo.library.exception;
 
-public class PatronNotFoundException extends RuntimeException {
+import jakarta.persistence.EntityNotFoundException;
+
+public class PatronNotFoundException extends EntityNotFoundException {
     public PatronNotFoundException(String message) {
         super(message);
     }

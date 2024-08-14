@@ -1,6 +1,8 @@
 package com.t0khyo.library.exception;
 
-public class BorrowingRecordNotFoundException extends RuntimeException {
+import jakarta.persistence.EntityNotFoundException;
+
+public class BorrowingRecordNotFoundException extends EntityNotFoundException {
     public BorrowingRecordNotFoundException(String message) {
         super(message);
     }

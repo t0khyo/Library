@@ -34,7 +34,7 @@ public class BorrowServiceImpl implements BorrowService {
         Patron patron = findPatronById(patronId);
 
         if (book.isBorrowed()) {
-            throw new BookIsAlreadyBorrowedException("The book with ID " + bookId + " is already borrowed.");
+            throw new BookIsAlreadyBorrowedException("The book with id: " + bookId + " is already borrowed.");
         }
 
         BorrowingRecord borrowingRecord = BorrowingRecord.builder()
