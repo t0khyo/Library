@@ -7,12 +7,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "Spring")
+@Mapper(componentModel="Spring")
 public interface PatronMapper {
     Patron toEntity(PatronRequest patronRequest);
 
     PatronResponse toDto(Patron patron);
 
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target="id", ignore=true)
     void update(PatronRequest patronRequest, @MappingTarget Patron patron);
 }

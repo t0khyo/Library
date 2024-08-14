@@ -11,7 +11,7 @@ import lombok.*;
 @Data
 @Embeddable
 public class ContactInfo {
-    @Column(nullable = false)
+    @Column(nullable=false)
     private String phone;
     private String email;
     private String address;

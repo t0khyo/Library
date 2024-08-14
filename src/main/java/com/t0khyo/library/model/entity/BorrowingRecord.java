@@ -15,10 +15,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 public class BorrowingRecord extends BaseEntity {
-    @ManyToOne
+    @ManyToOne(optional=false)
     private Book book;
 
-    @ManyToOne
+    @ManyToOne(optional=false)
     private Patron patron;
 
     private boolean returned = false;

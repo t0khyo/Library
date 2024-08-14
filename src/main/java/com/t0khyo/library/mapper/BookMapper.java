@@ -7,12 +7,15 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel="spring")
+@Mapper(componentModel="spring", uses={BorrowingRecordMapper.class})
 public interface BookMapper {
     Book toEntity(BookRequest bookRequest);
 
+    @Mapping(target="borrowingRecords", ignore=true)
     BookResponse toDto(Book book);
 
-    @Mapping(target = "id", ignore = true)
+    BookResponse toDetailedDto(Book book);
+
+    @Mapping(target="id", ignore=true)
     void update(BookRequest dto, @MappingTarget Book entity);
 }
