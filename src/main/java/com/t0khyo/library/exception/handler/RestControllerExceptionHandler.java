@@ -28,7 +28,7 @@ public class RestControllerExceptionHandler {
 
     @ExceptionHandler(value={BookNotFoundException.class, PatronNotFoundException.class, BorrowingRecordNotFoundException.class})
     public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
-        log.warn("EntityNotFoundException: {}", ex.getMessage());
+        log.warn("{}: {}", ex.getClass().getSimpleName(),ex.getMessage());
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
