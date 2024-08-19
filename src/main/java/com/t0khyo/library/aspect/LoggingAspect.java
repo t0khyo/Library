@@ -20,8 +20,29 @@ public class LoggingAspect {
         // It's used only as a pointcut reference
     }
 
-    @Around("serviceMethodsLoggingPackage()")
+    @Pointcut("execution(public * com.t0khyo.library.controller.*.*(..))")
+    public void controllerMethodsLoggingPackage() {
+        // This method is intentionally left blank
+        // It's used only as a pointcut reference
+    }
+
+    @Around(value = "serviceMethodsLoggingPackage()")
     public Object logAroundService(ProceedingJoinPoint joinPoint) throws Throwable {
+        String className = joinPoint.getTarget().getClass().getSimpleName();
+        String methodName = joinPoint.getSignature().getName();
+        Object[] args = joinPoint.getArgs();
+
+        log.info(">> {}.{}() - {}", className, methodName, Arrays.toString(args));
+
+        Object result = joinPoint.proceed();
+
+        log.info("<< {}.{}() - {}", className, methodName, result);
+
+        return result;
+    }
+
+    @Around(value = "controllerMethodsLoggingPackage()")
+    public Object logAroundController(ProceedingJoinPoint joinPoint) throws Throwable {
         String className = joinPoint.getTarget().getClass().getSimpleName();
         String methodName = joinPoint.getSignature().getName();
         Object[] args = joinPoint.getArgs();
