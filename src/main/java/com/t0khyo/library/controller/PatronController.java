@@ -29,7 +29,7 @@ public class PatronController {
     }
 
     @PostMapping
-    public ResponseEntity<PatronResponse> savePatron(@RequestBody PatronRequest patronRequest) {
+    public ResponseEntity<PatronResponse> savePatron(@Valid @RequestBody PatronRequest patronRequest) {
         PatronResponse patronResponse = patronService.save(patronRequest);
         URI patronURI = ServletUriComponentsBuilder
                 .fromCurrentRequest()
