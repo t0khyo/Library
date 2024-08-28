@@ -36,7 +36,7 @@ public class BorrowServiceImpl implements BorrowService {
         Patron patron = findPatronById(patronId);
 
         if (book.isBorrowed()) {
-            throw new BookIsAlreadyBorrowedException("The book with id: " + bookId + " is already borrowed.");
+            throw new BookIsAlreadyBorrowedException(book.getId());
         }
 
         BorrowingRecord borrowingRecord = BorrowingRecord.builder()
@@ -57,7 +57,7 @@ public class BorrowServiceImpl implements BorrowService {
     public BorrowingRecordDTO returnBook(Long bookId, Long patronId) {
         BorrowingRecord borrowingRecord = borrowRepository
                 .findByReturnedFalseAndBookIdAndPatronId(bookId, patronId)
-                .orElseThrow(() -> new BorrowingRecordNotFoundException("No active borrowing record found for this book and patron."));
+                .orElseThrow(BorrowingRecordNotFoundException::new);
 
         borrowingRecord.setReturnDate(LocalDate.now());
         borrowingRecord.setReturned(true);
@@ -68,10 +68,10 @@ public class BorrowServiceImpl implements BorrowService {
 
     // --- private methods ---
     private Book findBookById(Long id) {
-        return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book with Id: " + id + " not found."));
+        return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
     }
 
     private Patron findPatronById(Long id) {
-        return patronRepository.findById(id).orElseThrow(() -> new PatronNotFoundException("Patron with Id: " + id + " not found."));
+        return patronRepository.findById(id).orElseThrow(() -> new PatronNotFoundException(id));
     }
 }
