@@ -8,6 +8,8 @@ import com.t0khyo.library.model.entity.Book;
 import com.t0khyo.library.repository.BookRepository;
 import com.t0khyo.library.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookResponse> getAll() {
         return bookRepository.findAll().stream().map(bookMapper::toDto).toList();
+    }
+
+    @Override
+    public Page<BookResponse> getPage(Pageable pageable) {
+        return bookRepository.findAll(pageable).map(bookMapper::toDto);
     }
 
     @Override
@@ -59,4 +66,6 @@ public class BookServiceImpl implements BookService {
     private Book findBookById(Long id) {
         return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book with id: " + id + " not found."));
     }
+
+
 }

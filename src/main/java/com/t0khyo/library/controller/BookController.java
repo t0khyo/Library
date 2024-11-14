@@ -5,6 +5,10 @@ import com.t0khyo.library.model.dto.response.BookResponse;
 import com.t0khyo.library.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -21,6 +25,13 @@ public class BookController {
     @GetMapping
     public ResponseEntity<List<BookResponse>> getAllBooks() {
         return ResponseEntity.ok(bookService.getAll());
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<BookResponse>> getBooksPage(
+            @PageableDefault(page=0, size=10, sort="title", direction=Sort.Direction.ASC) Pageable pageable
+    ) {
+        return ResponseEntity.ok(bookService.getPage(pageable));
     }
 
     @GetMapping("/{id}")

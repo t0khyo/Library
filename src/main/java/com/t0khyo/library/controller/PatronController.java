@@ -39,7 +39,7 @@ public class PatronController {
         return ResponseEntity.created(patronURI).body(patronResponse);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<PatronResponse> updatePatron(
             @PathVariable Long id,
             @Valid @RequestBody PatronRequest patronRequest
