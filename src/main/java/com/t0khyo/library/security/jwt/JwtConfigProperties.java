@@ -1,4 +1,4 @@
-package com.t0khyo.library.security;
+package com.t0khyo.library.security.jwt;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

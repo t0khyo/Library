@@ -1,5 +1,7 @@
 package com.t0khyo.library.config;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -12,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
+@OpenAPIDefinition(servers={@Server(url="/", description="Default Server URL")})
 public class OpenApiConfig {
     @Bean
     public OpenAPI myAPI() {
