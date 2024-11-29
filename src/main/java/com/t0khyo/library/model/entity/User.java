@@ -4,7 +4,6 @@ package com.t0khyo.library.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Set;
 
@@ -42,5 +41,5 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     @ToString.Exclude
-    private Set<GrantedAuthority> roles;
+    private Set<Role> roles;
 }
