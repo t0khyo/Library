@@ -2,6 +2,8 @@ package com.t0khyo.library.security.jwt;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jwt.SignedJWT;
+import com.t0khyo.library.exception.InvalidSignatureException;
+import com.t0khyo.library.exception.TokenExpiredException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,15 +34,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         // 1. Decide whether the filter should be applied.
-        final String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            logger.error("No JWT accessToken found in request headers or accessToken format is invalid.");
+        final String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            logger.error("Authorization header missing or invalid");
             filterChain.doFilter(request, response);
             return;
         }
 
         // 2. Apply filter: authenticate or reject request
-        final String jwt = authHeader.substring(7);
+        final String jwt = authorizationHeader.substring(7);
         final String username;
         final SignedJWT signedJWT;
 
@@ -59,17 +61,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
 
-        } catch (ParseException e) {
-            logger.error("JWT token is malformed: {}", e);
-            setErrorResponse(HttpServletResponse.SC_BAD_REQUEST, response, "Malformed JWT token.");
-            return;
-        } catch (JOSEException e) {
-            logger.error("Error validating JWT signature: {}", e);
-            setErrorResponse(HttpServletResponse.SC_UNAUTHORIZED, response, "Invalid JWT signature.");
-            return;
-        } catch (RuntimeException e) {
-            logger.error("Unexpected error during JWT validation: {}", e);
-            setErrorResponse(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, response, "Unexpected error occurred.");
+        } catch (InvalidSignatureException | TokenExpiredException | JOSEException | ParseException ex) {
+            logger.error("Invalid or expired token: {}", ex);
+            setErrorResponse(HttpServletResponse.SC_UNAUTHORIZED, response, "Invalid or expired token");
             return;
         }
 
@@ -82,5 +76,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         response.setStatus(status);
         response.setContentType("application/json");
         response.getWriter().write("{\"error\": \"" + message + "\"}");
+        response.getWriter().flush();
     }
 }
