@@ -62,11 +62,11 @@ public class JwtUtil {
 
         if (!signedJWT.verify(verifier)) {
             log.error("Invalid token signature for JWT ID: {}", extractClaims(signedJWT).getJWTID());
-            throw new InvalidSignatureException("Invalid token signature.");
+            throw new InvalidSignatureException();
         }
 
         if (isTokenExpired(signedJWT)) {
-            throw new TokenExpiredException("token has expired.");
+            throw new TokenExpiredException();
         }
 
         return signedJWT;
