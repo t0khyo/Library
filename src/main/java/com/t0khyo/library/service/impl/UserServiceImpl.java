@@ -11,16 +11,19 @@ import com.t0khyo.library.repository.UserRepository;
 import com.t0khyo.library.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.relation.RoleNotFoundException;
+import java.util.HashSet;
 
 @Service
 @Slf4j
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -42,6 +45,11 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RoleNotFoundException("Default ROLE_USER not found."));
 
         User user = userMapper.toEntity(signUpRequest);
+
+        // Encrypt the password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        user.setRoles(new HashSet<>());
         user.getRoles().add(userDefualtRole);
 
         userRepository.save(user);
