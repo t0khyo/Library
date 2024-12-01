@@ -18,6 +18,9 @@ import java.util.Set;
         indexes = {
                 @Index(name = "username_idx", columnList = "username"),
                 @Index(name = "email_idx", columnList = "email")
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(name = "unique_username_email", columnNames = {"username", "email"})
         })
 @Entity
 public class User {
@@ -29,15 +32,16 @@ public class User {
     private String username;
 
     @Column(nullable = false, unique = true)
+
     private String email;
 
     @Column(nullable = false)
     @ToString.Exclude
     private String password;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "users_role",
+            name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
