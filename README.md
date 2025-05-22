@@ -140,8 +140,8 @@ Operations like borrowing and returning books are executed within **@Transaction
 ### 📥 Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/library-management-system.git
-cd library-management-system
+git clone https://github.com/t0khyo/library.git
+cd library
 ```
 
 ### ⚙️ Configure the application
