@@ -13,11 +13,17 @@ This API backend manages a library's collection of books and patrons, and record
 ## 📦 Features
 
 ✅ Manage books: add, update, delete, and retrieve book records
+<br>
 ✅ Manage patrons: add, update, delete, and retrieve patron records
+<br>
 ✅ Record borrowing and returning of books
+<br>
 ✅ JWT-based authentication system (login/signup)
+<br>
 ✅ Input validation and exception handling
+<br>
 ✅ Declarative transaction management
+<br>
 ✅ Unit and integration testing
 
 ---
